@@ -13,10 +13,11 @@ PRIVATE_KEY=$(jq -r '.private_key' "$SECRETS_FILE")
 PASSWORD=$(jq -r '.password' "$SECRETS_FILE")
 
 echo "Setting password"
-enclave password set --config "$CONFIG_FILE" --password "$PASSWORD"
+enclave password set --config "$CONFIG_FILE" --password "$PASSWORD" 2>/dev/null || \
+enclave password set --config "$CONFIG_FILE" --password "$PASSWORD" --overwrite 2>/dev/null || true
 
 echo "Setting wallet key"
-enclave wallet set --config "$CONFIG_FILE" --private-key "$PRIVATE_KEY"
+enclave wallet set --config "$CONFIG_FILE" --private-key "$PRIVATE_KEY" 2>/dev/null || true
 
 echo "Starting ciphernode"
 exec enclave start -v --config "$CONFIG_FILE"

@@ -1,5 +1,12 @@
 ---
-# Enclave Configuration File
+node:
+  address: '0x300C4F8Ec26F25363646520075121aD8bB91cfAD'
+  quic_port: 9091
+  peers:
+    - '/dnsaddr/bootstrap.interfold.gg'
+  autonetkey: true
+  autopassword: true
+
 chains:
   - name: "devnet"
     rpc_url: "wss://ethereum-sepolia-rpc.publicnode.com"
