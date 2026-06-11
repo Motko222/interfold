@@ -8,7 +8,7 @@ node:
   autopassword: true
 
 chains:
-  - name: "devnet"
+  - name: "sepolia"
     rpc_url: "wss://ethereum-sepolia-rpc.publicnode.com"
     contracts:
       enclave:
