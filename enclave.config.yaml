@@ -1,6 +1,6 @@
 ---
 node:
-  address: '0x300C4F8Ec26F25363646520075121aD8bB91cfAD'
+  address: '0x...'
   quic_port: 9091
   peers:
     - '/dnsaddr/bootstrap.enclave.gg'
