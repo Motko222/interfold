@@ -1,9 +1,9 @@
 ---
 node:
-  address: '0x...'
+  address: '0x6DADB33D4Dd6D382f1Ee8C28F52D07841f44eDdB'
   quic_port: 9091
   peers:
-    - '/dnsaddr/bootstrap.enclave.gg'
+    - '/dnsaddr/bootstrap.interfold.network'
   autonetkey: true
   autopassword: true
 
@@ -11,7 +11,7 @@ chains:
   - name: "sepolia"
     rpc_url: "wss://ethereum-sepolia-rpc.publicnode.com"
     contracts:
-      enclave:
+      interfold:
         address: "0x670eFE043d1D340148037b4b76c4F9dfED294309"
         deploy_block: 10939874
       ciphernode_registry:
