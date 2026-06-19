@@ -7,7 +7,7 @@ source ~/.bash_profile
 source $path/env
 
 docker_status=$(docker inspect $CONTAINER 2>/dev/null | jq -r '.[].State.Status' 2>/dev/null || echo "missing")
-version=$(docker inspect $CONTAINER 2>/dev/null | jq -r '.[].Config.Image' | awk -F: '{print $NF}')
+version=$(docker exec $CONTAINER interfold --version 2>/dev/null | awk '{print $2}' || docker inspect $CONTAINER 2>/dev/null | jq -r '.[].Config.Image' | awk -F: '{print $NF}')
 errors=$(docker logs $CONTAINER --since 1h 2>&1 | grep -c -iE "error|ERROR")
 peers=$(docker logs $CONTAINER --since 24h 2>&1 | grep -oP 'total: \K[0-9]+' | tail -1)
 subscribed=$(docker logs $CONTAINER --since 5m 2>&1 | grep -c "Live event subscription active")
