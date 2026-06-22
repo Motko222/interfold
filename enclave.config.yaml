@@ -9,7 +9,7 @@ node:
 
 chains:
   - name: "sepolia"
-    rpc_url: "wss://ethereum-sepolia-rpc.publicnode.com"
+    rpc_url: "wss://sepolia.drpc.org"
     contracts:
       interfold:
         address: "0x670eFE043d1D340148037b4b76c4F9dfED294309"
