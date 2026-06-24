@@ -6,23 +6,27 @@ node:
     - '/dnsaddr/bootstrap.interfold.network'
   autonetkey: true
   autopassword: true
+  dashboard_port: 8080
 
 chains:
   - name: "sepolia"
     rpc_url: "wss://sepolia.drpc.org"
     contracts:
       interfold:
-        address: "0x670eFE043d1D340148037b4b76c4F9dfED294309"
-        deploy_block: 10939874
+        address: "0x64Cd2d88537A18D8E599d786447F9a07Dd9C7f26"
+        deploy_block: 11124539
       ciphernode_registry:
-        address: "0x4D707127F72a216EA116AF0B4262dD7382F84259"
-        deploy_block: 10939869
+        address: "0xDDd7e1eA2AD8195217D9B25B13fac667b6Fc4dD9"
+        deploy_block: 11124526
       bonding_registry:
-        address: "0xb9b64c5e0a30f38ed33760f299613087aAe87283"
-        deploy_block: 10939870
+        address: "0x0c25cC9c034611D2F62686e68e61978F21eEc777"
+        deploy_block: 11124527
       slashing_manager:
-        address: "0x0553387EE0992Fe339579728B6c777164fD1de40"
-        deploy_block: 10939868
+        address: "0x7c0aCC0053370142Da824087640926814502Cf4a"
+        deploy_block: 11124525
       fee_token:
-        address: "0x2721Cdf281d40744aD567cBf3e7100F60bcbAE79"
-        deploy_block: 10939865
+        address: "0x08260aE8970E3555E48caA547988bAD397786E6D"
+        deploy_block: 11124519
+      faucet:
+        address: "0x94FCD9b624baAf023c7F48C5E7200eAd85dc87Df"
+        deploy_block: 11124533
