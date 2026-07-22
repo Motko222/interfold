@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+apt-get update -qq && apt-get install -y -qq ca-certificates libssl3 jq > /dev/null 2>&1
+
 CONFIG_FILE="/home/ciphernode/.config/interfold/config.yaml"
 SECRETS_FILE="/run/secrets/secrets.json"
 
