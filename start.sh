@@ -6,9 +6,11 @@ docker run -d \
   --name $CONTAINER \
   --network host \
   --restart unless-stopped \
+  -v $path/interfold:/usr/local/bin/interfold:ro \
   -v $path/enclave.config.yaml:/home/ciphernode/.config/interfold/config.yaml:ro \
   -v $path/secrets.json:/run/secrets/secrets.json:ro \
-  -v $path/entrypoint.sh:/usr/local/bin/ciphernode-entrypoint.sh:ro \
-  ghcr.io/gnosisguild/ciphernode:latest
+  -v $path/ubuntu-entrypoint.sh:/usr/local/bin/ciphernode-entrypoint.sh:ro \
+  --entrypoint /usr/local/bin/ciphernode-entrypoint.sh \
+  ubuntu:24.04
 
 echo "$CONTAINER started"
