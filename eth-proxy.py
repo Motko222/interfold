@@ -28,28 +28,48 @@ async def ws_handler(req):
     client = web.WebSocketResponse()
     await client.prepare(req)
 
-    async with aiohttp.ClientSession() as session:
-        async with session.ws_connect(WS_BACKEND) as backend:
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.ws_connect(WS_BACKEND) as backend:
 
-            async def forward_to_backend():
-                async for msg in client:
-                    if msg.type == aiohttp.WSMsgType.TEXT:
-                        await backend.send_str(msg.data)
-                    elif msg.type == aiohttp.WSMsgType.BINARY:
-                        await backend.send_bytes(msg.data)
-                    elif msg.type in (aiohttp.WSMsgType.CLOSE, aiohttp.WSMsgType.ERROR):
-                        break
+                async def forward_to_backend():
+                    async for msg in client:
+                        if msg.type == aiohttp.WSMsgType.TEXT:
+                            await backend.send_str(msg.data)
+                        elif msg.type == aiohttp.WSMsgType.BINARY:
+                            await backend.send_bytes(msg.data)
+                        elif msg.type in (aiohttp.WSMsgType.CLOSE, aiohttp.WSMsgType.ERROR):
+                            break
 
-            async def forward_to_client():
-                async for msg in backend:
-                    if msg.type == aiohttp.WSMsgType.TEXT:
-                        await client.send_str(msg.data)
-                    elif msg.type == aiohttp.WSMsgType.BINARY:
-                        await client.send_bytes(msg.data)
-                    elif msg.type in (aiohttp.WSMsgType.CLOSE, aiohttp.WSMsgType.ERROR):
-                        break
+                async def forward_to_client():
+                    async for msg in backend:
+                        if msg.type == aiohttp.WSMsgType.TEXT:
+                            await client.send_str(msg.data)
+                        elif msg.type == aiohttp.WSMsgType.BINARY:
+                            await client.send_bytes(msg.data)
+                        elif msg.type in (aiohttp.WSMsgType.CLOSE, aiohttp.WSMsgType.ERROR):
+                            break
 
-            await asyncio.gather(forward_to_backend(), forward_to_client())
+                # Cancel the idle direction when the other side closes
+                tasks = [
+                    asyncio.ensure_future(forward_to_backend()),
+                    asyncio.ensure_future(forward_to_client()),
+                ]
+                try:
+                    _, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+                    for t in pending:
+                        t.cancel()
+                    await asyncio.gather(*pending, return_exceptions=True)
+                except Exception:
+                    for t in tasks:
+                        t.cancel()
+                    await asyncio.gather(*tasks, return_exceptions=True)
+                    raise
+    except Exception:
+        pass
+    finally:
+        if not client.closed:
+            await client.close()
 
     return client
 
