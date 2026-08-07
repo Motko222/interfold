@@ -25,9 +25,11 @@ LISTEN_PORT  = 8647
 
 
 async def ws_handler(req):
+    client = web.WebSocketResponse()
+    await client.prepare(req)
+
     async with aiohttp.ClientSession() as session:
         async with session.ws_connect(WS_BACKEND) as backend:
-            client = await req.ws_connect()
 
             async def forward_to_backend():
                 async for msg in client:
@@ -48,7 +50,8 @@ async def ws_handler(req):
                         break
 
             await asyncio.gather(forward_to_backend(), forward_to_client())
-            return client
+
+    return client
 
 
 async def http_handler(req):
