@@ -103,4 +103,4 @@ app = web.Application()
 app.router.add_route("*", "/{path_info:.*}", router)
 
 if __name__ == "__main__":
-    web.run_app(app, host="0.0.0.0", port=LISTEN_PORT)
+    web.run_app(app, host="0.0.0.0", port=LISTEN_PORT, keepalive_timeout=600)
