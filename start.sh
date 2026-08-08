@@ -6,7 +6,8 @@ docker run -d \
   --name $CONTAINER \
   --network host \
   --restart unless-stopped \
-  -v /root/interfold/interfold:/usr/local/bin/interfold:ro \
+  -e RPC_URL="$RPC_URL" \
+  -v $path/interfold:/usr/local/bin/interfold:ro \
   -v $path/enclave.config.yaml:/home/ciphernode/.config/interfold/config.yaml:ro \
   -v $path/secrets.json:/run/secrets/secrets.json:ro \
   -v $path/ubuntu-entrypoint.sh:/usr/local/bin/ciphernode-entrypoint.sh:ro \

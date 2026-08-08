@@ -10,7 +10,7 @@ node:
 
 chains:
   - name: "sepolia"
-    rpc_url: "ws://localhost:8647"
+    rpc_url: "__RPC_URL__"
     contracts:
       interfold:
         address: "0x64Cd2d88537A18D8E599d786447F9a07Dd9C7f26"

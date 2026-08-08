@@ -2,11 +2,15 @@
 set -e
 apt-get update -qq
 apt-get install -y -q --no-install-recommends ca-certificates libssl3 jq
-CONFIG_FILE="/home/ciphernode/.config/interfold/config.yaml"
 SECRETS_FILE="/run/secrets/secrets.json"
 if [ ! -f "$SECRETS_FILE" ]; then
     echo "Error: Secrets file $SECRETS_FILE not found!"
     exit 1
+fi
+CONFIG_FILE="/home/ciphernode/.config/interfold/config.runtime.yaml"
+cp /home/ciphernode/.config/interfold/config.yaml "$CONFIG_FILE"
+if [ -n "$RPC_URL" ]; then
+    sed -i "s#rpc_url:.*#rpc_url: \"$RPC_URL\"#" "$CONFIG_FILE"
 fi
 PRIVATE_KEY=$(jq -r '.private_key' "$SECRETS_FILE")
 PASSWORD=$(jq -r '.password' "$SECRETS_FILE")
