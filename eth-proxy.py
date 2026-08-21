@@ -83,12 +83,15 @@ async def http_handler(req):
             headers={k: v for k, v in req.headers.items()
                      if k.lower() not in ("host", "content-length")},
             data=body,
+            timeout=aiohttp.ClientTimeout(total=30),
         ) as resp:
             content = await resp.read()
             return web.Response(
                 status=resp.status,
                 headers={k: v for k, v in resp.headers.items()
-                         if k.lower() not in ("transfer-encoding", "content-encoding")},
+                         if k.lower() not in (
+                             "transfer-encoding", "content-encoding", "content-length"
+                         )},
                 body=content,
             )
 
