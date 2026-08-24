@@ -12,6 +12,7 @@ cp /home/ciphernode/.config/interfold/config.yaml "$CONFIG_FILE"
 if [ -n "$RPC_URL" ]; then
     sed -i "s#rpc_url:.*#rpc_url: \"$RPC_URL\"#" "$CONFIG_FILE"
 fi
+sed -i "s#autopassword: true#autopassword: false#" "$CONFIG_FILE"
 PRIVATE_KEY=$(jq -r '.private_key' "$SECRETS_FILE")
 PASSWORD=$(jq -r '.password' "$SECRETS_FILE")
 echo "Setting password"
