@@ -9,7 +9,7 @@ source $path/env
 docker_status=$(docker inspect $CONTAINER 2>/dev/null | jq -r '.[].State.Status' 2>/dev/null || echo "missing")
 version=$(docker exec $CONTAINER interfold --version 2>/dev/null | awk '{print $2}' || docker inspect $CONTAINER 2>/dev/null | jq -r '.[].Config.Image' | awk -F: '{print $NF}')
 errors=$(docker logs $CONTAINER --since 1h 2>&1 | grep $'\x1b\[31mERROR' | grep -vc "authentication failed")
-peers=$(docker logs $CONTAINER --since 24h 2>&1 | grep -oP 'total: \K[0-9]+' | tail -1)
+peers=$(curl -s http://localhost:8082/api/snapshot 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(len(d['network']['connected_peers']))" 2>/dev/null || echo 0)
 subscribed=$(docker logs $CONTAINER --since 5m 2>&1 | grep -c "Live event subscription active")
 
 case $docker_status in
